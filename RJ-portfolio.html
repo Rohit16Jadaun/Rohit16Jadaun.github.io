@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rohit Jadaun — SRE & Application Support Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface-2: #1c2230;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text-muted: #8b949e;
+      --text-dim: #4d5565;
+      --accent: #58a6ff;
+      --accent-dim: #1a2d4d;
+      --green: #3fb950;
+      --green-dim: #1a3326;
+      --amber: #d29922;
+      --amber-dim: #2d2108;
+      --red: #f85149;
+      --red-dim: #2d1515;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Inter', sans-serif;
+      --radius: 8px;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 15px; line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(13,17,23,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex; align-items: center; justify-content: space-between; height: 56px;
+    }
+    .nav-logo { font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--green); letter-spacing: 0.05em; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { font-family: var(--mono); font-size: 12px; color: var(--text-muted); letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    .section { max-width: 920px; margin: 0 auto; padding: 5rem 2rem; }
+    .section-label { font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--green); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem; }
+    .section-title { font-size: 2rem; font-weight: 600; color: var(--text); margin-bottom: 1rem; }
+    .section-sub { color: var(--text-muted); max-width: 540px; margin-bottom: 0; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+    /* HERO */
+    .hero { min-height: 88vh; display: flex; align-items: center; max-width: 920px; margin: 0 auto; padding: 0 2rem; }
+    .hero-inner { width: 100%; }
+    .hero-prompt { font-family: var(--mono); font-size: 13px; color: var(--text-dim); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; }
+    .hero-prompt::before { content: '>'; color: var(--green); font-weight: 700; }
+    .hero-name { font-size: 3.8rem; font-weight: 600; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 0.75rem; }
+    .hero-name span { color: var(--accent); }
+    .hero-role { font-family: var(--mono); font-size: 1.05rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+    .hero-role .hl { color: var(--green); }
+    .hero-bio { max-width: 560px; font-size: 1rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 2.5rem; }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn { font-family: var(--mono); font-size: 13px; font-weight: 500; padding: 0.65rem 1.5rem; border-radius: var(--radius); letter-spacing: 0.04em; cursor: pointer; transition: all 0.2s; display: inline-block; }
+    .btn-primary { background: var(--accent); color: #0d1117; border: 1px solid var(--accent); }
+    .btn-primary:hover { background: #79c0ff; border-color: #79c0ff; text-decoration: none; }
+    .btn-ghost { background: transparent; color: var(--text-muted); border: 1px solid var(--border); }
+    .btn-ghost:hover { color: var(--text); border-color: var(--text-muted); text-decoration: none; }
+
+    .status-bar { display: flex; gap: 2.5rem; margin-top: 3.5rem; padding-top: 2rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+    .status-item { display: flex; flex-direction: column; gap: 0.2rem; }
+    .status-value { font-family: var(--mono); font-size: 1.5rem; font-weight: 700; color: var(--text); }
+    .status-label { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; }
+
+    /* SKILLS */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 2.5rem; }
+    .skill-category { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; }
+    .skill-cat-title { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 1rem; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .tag { font-family: var(--mono); font-size: 12px; padding: 0.28rem 0.6rem; border-radius: 4px; background: var(--surface-2); color: var(--text-muted); border: 1px solid var(--border); }
+    .tag.green { background: var(--green-dim); color: var(--green); border-color: rgba(63,185,80,0.3); }
+    .tag.blue { background: var(--accent-dim); color: var(--accent); border-color: rgba(88,166,255,0.3); }
+    .tag.amber { background: var(--amber-dim); color: var(--amber); border-color: rgba(210,153,34,0.3); }
+    .tag.red { background: var(--red-dim); color: var(--red); border-color: rgba(248,81,73,0.3); }
+
+    /* EXPERIENCE */
+    .timeline { margin-top: 2.5rem; }
+    .timeline-item { padding-left: 2rem; border-left: 2px solid var(--border); padding-bottom: 2.5rem; position: relative; }
+    .timeline-item::before { content: ''; width: 10px; height: 10px; background: var(--accent); border-radius: 50%; position: absolute; left: -6px; top: 6px; }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-meta { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.2rem; }
+    .timeline-title { font-size: 1.05rem; font-weight: 600; color: var(--text); }
+    .timeline-period { font-family: var(--mono); font-size: 12px; color: var(--green); }
+    .timeline-company { font-size: 14px; color: var(--text-muted); margin-bottom: 0.75rem; }
+    .timeline-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+    .timeline-bullets li { font-size: 14px; color: var(--text-muted); padding-left: 1.2rem; position: relative; line-height: 1.65; }
+    .timeline-bullets li::before { content: '─'; font-family: var(--mono); color: var(--text-dim); position: absolute; left: 0; }
+
+    /* PROJECTS */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-top: 2.5rem; }
+    .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; transition: border-color 0.2s, background 0.2s; }
+    .project-card:hover { border-color: var(--accent); background: #161c26; }
+    .project-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 0.75rem; }
+    .project-icon { font-size: 1.4rem; }
+    .project-link-btn { font-family: var(--mono); font-size: 11px; color: var(--text-dim); transition: color 0.2s; }
+    .project-link-btn:hover { color: var(--accent); text-decoration: none; }
+    .project-name { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 0.5rem; }
+    .project-desc { font-size: 13px; color: var(--text-muted); line-height: 1.65; margin-bottom: 1rem; }
+    .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    /* EDUCATION */
+    .edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-top: 2.5rem; }
+    .edu-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; }
+    .edu-icon { font-size: 1.3rem; margin-bottom: 0.75rem; }
+    .edu-degree { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 0.2rem; }
+    .edu-school { font-size: 13px; color: var(--text-muted); margin-bottom: 0.75rem; }
+    .edu-year { font-family: var(--mono); font-size: 11px; color: var(--green); letter-spacing: 0.05em; }
+
+    /* CONTACT */
+    .contact-inner { margin-top: 2.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 2rem; }
+    .contact-text h3 { font-size: 1.4rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .contact-text p { color: var(--text-muted); font-size: 14px; }
+    .contact-links { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+    footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; font-family: var(--mono); font-size: 12px; color: var(--text-dim); }
+
+    @media (max-width: 640px) {
+      .hero-name { font-size: 2.4rem; }
+      .nav-links { display: none; }
+      .status-bar { gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">~/rohit-jadaun</span>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <p class="hero-prompt">whoami — Noida, India</p>
+    <h1 class="hero-name">Rohit <span>Jadaun</span></h1>
+    <p class="hero-role">
+      <span class="hl">SRE</span> &amp; Application Support Engineer
+    </p>
+    <p class="hero-bio">
+      4+ years keeping cloud-native systems reliable across AWS, Azure, and Kubernetes.
+      Specialised in observability, incident response, and payment platform support —
+      with a track record of reducing MTTR and driving zero-downtime releases.
+    </p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn btn-primary">Get in touch</a>
+      <a href="https://github.com/Rohit16Jadaun" target="_blank" class="btn btn-ghost">GitHub ↗</a>
+      <a href="https://www.linkedin.com/in/rohit-jadaun-993488227/" target="_blank" class="btn btn-ghost">LinkedIn ↗</a>
+    </div>
+    <div class="status-bar">
+      <div class="status-item">
+        <span class="status-value">4+</span>
+        <span class="status-label">Years experience</span>
+      </div>
+      <div class="status-item">
+        <span class="status-value">50+</span>
+        <span class="status-label">Merchants supported</span>
+      </div>
+      <div class="status-item">
+        <span class="status-value">14</span>
+        <span class="status-label">Countries (Airtel Africa)</span>
+      </div>
+      <div class="status-item">
+        <span class="status-value">S0/S1</span>
+        <span class="status-label">Incident RCA lead</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- SKILLS -->
+<section class="section" id="skills">
+  <p class="section-label">// skills</p>
+  <h2 class="section-title">Technologies &amp; tools</h2>
+  <p class="section-sub">The stack I use daily to monitor, deploy, troubleshoot, and recover production systems.</p>
+  <div class="skills-grid">
+    <div class="skill-category">
+      <p class="skill-cat-title">Observability &amp; monitoring</p>
+      <div class="skill-tags">
+        <span class="tag green">Grafana</span>
+        <span class="tag green">Loki</span>
+        <span class="tag green">Prometheus</span>
+        <span class="tag green">Kibana</span>
+        <span class="tag green">ELK Stack</span>
+        <span class="tag green">Slack Alerts</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <p class="skill-cat-title">Containers &amp; orchestration</p>
+      <div class="skill-tags">
+        <span class="tag blue">Kubernetes (EKS)</span>
+        <span class="tag blue">Docker</span>
+        <span class="tag blue">K9s</span>
+        <span class="tag blue">ArgoCD</span>
+        <span class="tag blue">Rancher</span>
+        <span class="tag blue">Helm</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <p class="skill-cat-title">Cloud &amp; infrastructure</p>
+      <div class="skill-tags">
+        <span class="tag amber">AWS EC2/EKS/S3</span>
+        <span class="tag amber">Azure VNet/NSG/DNS</span>
+        <span class="tag amber">Multi-cloud cost optimisation</span>
+        <span class="tag amber">Terraform</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <p class="skill-cat-title">CI/CD &amp; GitOps</p>
+      <div class="skill-tags">
+        <span class="tag">Jenkins</span>
+        <span class="tag">GitLab CI/CD</span>
+        <span class="tag">Bitbucket</span>
+        <span class="tag">ArgoCD</span>
+        <span class="tag">GitHub Actions</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <p class="skill-cat-title">Databases &amp; querying</p>
+      <div class="skill-tags">
+        <span class="tag">SQL / NoSQL</span>
+        <span class="tag">Starburst</span>
+        <span class="tag">Hive</span>
+        <span class="tag">Metabase</span>
+        <span class="tag">PostgreSQL</span>
+        <span class="tag">Redis</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <p class="skill-cat-title">API, testing &amp; ticketing</p>
+      <div class="skill-tags">
+        <span class="tag red">Postman</span>
+        <span class="tag red">Swagger</span>
+        <span class="tag red">REST API validation</span>
+        <span class="tag">Jira</span>
+        <span class="tag">Freshdesk</span>
+        <span class="tag">DevRev</span>
+        <span class="tag">ServiceNow</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- EXPERIENCE -->
+<section class="section" id="experience">
+  <p class="section-label">// experience</p>
+  <h2 class="section-title">Work history</h2>
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="timeline-meta">
+        <span class="timeline-title">Senior Associate — Payment Support</span>
+        <span class="timeline-period">Jul 2023 – Dec 2025</span>
+      </div>
+      <p class="timeline-company">Paytm Payments Services Ltd. · Noida, India</p>
+      <ul class="timeline-bullets">
+        <li>Led a 4-person pod managing end-to-end operations and high-priority incident response for the Paytm Super Router (AI Router) platform.</li>
+        <li>Coordinated sanity, smoke, and regression testing pipelines before every production deployment via ArgoCD; used Grafana and Kibana to ensure zero-downtime releases.</li>
+        <li>Monitored merchant payment success rates via Grafana dashboards and performed deep-dive Kibana log analysis, improving MTTR across 50+ integrated merchants.</li>
+        <li>Led RCA for Severity-0 and Severity-1 production incidents, driving sustained reduction in incident volume.</li>
+        <li>Deployed and managed microservice pods using Git, Jenkins, and ArgoCD (GitOps) across staging and production.</li>
+        <li>Provided dedicated technical support for payment gateway integrations via Freshdesk, DevRev, and Jira — resolving post-live queries across merchant business and IT teams.</li>
+        <li>Queried and analysed transactional data using Starburst and Hive to surface insights and support issue investigation.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-meta">
+        <span class="timeline-title">L2 Support Engineer</span>
+        <span class="timeline-period">Nov 2022 – Jun 2023</span>
+      </div>
+      <p class="timeline-company">DikshaTech · Remote (Airtel Africa)</p>
+      <ul class="timeline-bullets">
+        <li>Provided application support across 14 African countries for Airtel Africa — monitoring and maintaining daily sanity across all 14 OPCOs (Self-care App, Web Portal, CS Portal, Police Portal).</li>
+        <li>Performed end-to-end troubleshooting of application slowness and service interruptions using Kubernetes pod inspection and Kibana log analysis.</li>
+        <li>Integrated microservices with Kibana for real-time log visibility during downtime events.</li>
+        <li>Managed Jira ticket queue for self-care app and website issues, ensuring timely resolution and documentation.</li>
+        <li>Updated Airtel Africa self-care bundles using SQL queries to enhance user experience.</li>
+      </ul>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-meta">
+        <span class="timeline-title">Application Support Engineer</span>
+        <span class="timeline-period">Nov 2021 – Sep 2022</span>
+      </div>
+      <p class="timeline-company">OYE! Rickshaw · Noida, India</p>
+      <ul class="timeline-bullets">
+        <li>Configured and managed multi-cloud infrastructure across AWS and Azure, including cloud cost monitoring and optimisation.</li>
+        <li>Automated production and dev deployments using GitLab CI/CD, eliminating manual deployment steps.</li>
+        <li>Managed and monitored Kubernetes clusters, maintained YAML configuration files, and resolved production challenges.</li>
+        <li>Managed production incident response, Severity-0/1 RCA, and SLA compliance across all operational systems.</li>
+        <li>Automated recurring manual processes, freeing up team bandwidth for higher-value support tasks.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- PROJECTS -->
+<section class="section" id="projects">
+  <p class="section-label">// projects</p>
+  <h2 class="section-title">Notable work &amp; repos</h2>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <div class="project-header">
+        <span class="project-icon">🤖</span>
+        <a href="https://github.com/Rohit16Jadaun/jarvis" target="_blank" class="project-link-btn">GitHub ↗</a>
+      </div>
+      <h3 class="project-name">Jarvis AI Assistant</h3>
+      <p class="project-desc">
+        A Python voice-command assistant inspired by Alexa — takes voice input from the user and returns results. Built as an exploration of speech recognition and automation.
+      </p>
+      <div class="project-stack">
+        <span class="tag amber">Python</span>
+        <span class="tag">Speech Recognition</span>
+        <span class="tag">Automation</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <span class="project-icon">🏗️</span>
+        <a href="https://github.com/Rohit16Jadaun/second-repo-terraform" target="_blank" class="project-link-btn">GitHub ↗</a>
+      </div>
+      <h3 class="project-name">Terraform Infrastructure Repos</h3>
+      <p class="project-desc">
+        Hands-on Terraform projects provisioning cloud resources programmatically. Demonstrates IaC practices used in real production environment management.
+      </p>
+      <div class="project-stack">
+        <span class="tag amber">Terraform</span>
+        <span class="tag blue">AWS</span>
+        <span class="tag">IaC</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <span class="project-icon">📊</span>
+        <a href="#" class="project-link-btn">Paytm · Internal</a>
+      </div>
+      <h3 class="project-name">AI Router Observability Stack</h3>
+      <p class="project-desc">
+        Built and maintained Grafana dashboards and Kibana log pipelines for the Paytm Super Router platform, giving real-time visibility into merchant payment success rates across 50+ integrations.
+      </p>
+      <div class="project-stack">
+        <span class="tag green">Grafana</span>
+        <span class="tag green">Kibana</span>
+        <span class="tag green">Prometheus</span>
+        <span class="tag blue">Kubernetes</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <span class="project-icon">🌍</span>
+        <a href="#" class="project-link-btn">DikshaTech · Internal</a>
+      </div>
+      <h3 class="project-name">Airtel Africa Multi-OPCO Monitoring</h3>
+      <p class="project-desc">
+        Set up and maintained real-time monitoring and log visibility for 14 African country operations — integrating microservices with Kibana and managing cross-team incident coordination.
+      </p>
+      <div class="project-stack">
+        <span class="tag green">ELK Stack</span>
+        <span class="tag blue">Kubernetes</span>
+        <span class="tag">SQL</span>
+        <span class="tag">Jira</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- EDUCATION -->
+<section class="section" id="education">
+  <p class="section-label">// education</p>
+  <h2 class="section-title">Qualifications</h2>
+  <div class="edu-grid">
+
+    <div class="edu-card">
+      <div class="edu-icon">🎓</div>
+      <h3 class="edu-degree">Master of Computer Applications (MCA)</h3>
+      <p class="edu-school">Jaipur National University, Jaipur</p>
+      <span class="edu-year">2017 – 2019</span>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-icon">🎓</div>
+      <h3 class="edu-degree">Bachelor of Computer Applications (BCA)</h3>
+      <p class="edu-school">Dr Bhimrao Ambedkar University, Agra</p>
+      <span class="edu-year">2012 – 2015</span>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-icon">☁️</div>
+      <h3 class="edu-degree">AWS Certified (in progress / target)</h3>
+      <p class="edu-school">Amazon Web Services</p>
+      <span class="edu-year">AWS EC2, EKS, S3 — production experience</span>
+    </div>
+
+    <div class="edu-card">
+      <div class="edu-icon">📋</div>
+      <h3 class="edu-degree">Areas of expertise</h3>
+      <p class="edu-school">Application Support · SRE · Incident Management · CI/CD · GitOps · Payment Gateway Support · IAAS/PAAS/SAAS</p>
+      <span class="edu-year">4 years 1 month total</span>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- CONTACT -->
+<section class="section" id="contact">
+  <p class="section-label">// contact</p>
+  <h2 class="section-title">Get in touch</h2>
+  <div class="contact-inner">
+    <div class="contact-text">
+      <h3>Open to new opportunities</h3>
+      <p>Based in Noida, India · Available for SRE and Application Support roles.</p>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:rjsatoms1994@gmail.com" class="btn btn-primary">rjsatoms1994@gmail.com</a>
+      <a href="https://www.linkedin.com/in/rohit-jadaun-993488227/" target="_blank" class="btn btn-ghost">LinkedIn</a>
+      <a href="https://github.com/Rohit16Jadaun" target="_blank" class="btn btn-ghost">GitHub</a>
+      <a href="tel:+917017227199" class="btn btn-ghost">+91 7017227199</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2025 Rohit Jadaun · SRE &amp; Application Support Engineer · Noida, India</span>
+</footer>
+
+</body>
+</html>
