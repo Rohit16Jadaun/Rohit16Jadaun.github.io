@@ -130,6 +130,74 @@
       .hero-name { font-size: 2.4rem; }
       .nav-links { display: none; }
       .status-bar { gap: 1.5rem; }
+      /* ... all your existing CSS ... */
+
+    /* NAV AVATAR - add these at the bottom */
+    .nav-avatar-wrapper {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .nav-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 2px solid var(--green);
+      object-fit: cover;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: block;
+    }
+
+    .nav-avatar:hover {
+      transform: scale(1.15);
+      box-shadow: 0 0 10px var(--green);
+    }
+
+    .nav-avatar-popup {
+      display: none;
+      position: absolute;
+      top: 48px;
+      left: 0;
+      background: var(--surface);
+      border: 1px solid var(--green);
+      border-radius: var(--radius);
+      padding: 1rem;
+      width: 160px;
+      text-align: center;
+      z-index: 999;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      animation: popIn 0.2s ease;
+    }
+
+    .nav-avatar-popup img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px solid var(--green);
+      object-fit: cover;
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-avatar-popup p {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.2rem;
+    }
+
+    .nav-avatar-popup span {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--mono);
+    }
+
+    .nav-avatar-wrapper:hover .nav-avatar-popup {
+      display: block;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.85) translateY(-6px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
     }
   </style>
 </head>
@@ -137,8 +205,14 @@
 
 <nav>
   <div style="display:flex; align-items:center; gap:0.75rem;">
-    <img src="photo.PNG" alt="Rohit Jadaun"
-      style="width:34px; height:34px; border-radius:50%; border:2px solid var(--green); object-fit:cover;" />
+    <div class="nav-avatar-wrapper">
+      <img src="photo.jpg" alt="Rohit Jadaun" class="nav-avatar" />
+      <div class="nav-avatar-popup">
+        <img src="photo.jpg" alt="Rohit Jadaun" />
+        <p>Rohit Jadaun</p>
+        <span>SRE & App Support Engineer</span>
+      </div>
+    </div>
     <span class="nav-logo">~/rohit-jadaun</span>
   </div>
   <ul class="nav-links">
